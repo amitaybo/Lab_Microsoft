@@ -1,0 +1,9 @@
+1.Open Azure Portal
+2.Choose Monitor Buttun
+3.Click "Metrics"
+4.Choose Resources From Scope that you want to monitor
+5.Choose "adPDC"-Avg OS Disk Bandwidth Consumed Percentage,Avg Percentage CPU
+6.Choose "adBDC"-Avg OS Disk Bandwidth Consumed Percentage,Avg Percentage CPU
+7.Click Save To Dashboard and than pin to new dashboard "disk&cpu&network"
+8.Choose "adPDCNic"-Sum Packets Received for adPDCNic
+9.Click Save To Dashboard and than pin to dashboard "disk&cpu&network"

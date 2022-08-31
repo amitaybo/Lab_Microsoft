@@ -1,0 +1,19 @@
+1. Open PS ISE With administrator
+2. Install-Module -Name Az
+3. Import-Module -Name Az
+4. Connect-AzAccount
+5. Insert UserName&Password of on tenant admin
+6. Copy&Paste this script:
+
+$deploytemp = @{
+    adminUsername = 'amitay'
+    domainName = 'amicrosoftlab.com'
+    dnsPrefix = "adds01"   
+}
+
+New-AzResourceGroup -Name myrg1 -Location 'East US'
+New-AzResourceGroupDeployment -ResourceGroupName myrg1 -TemplateUri https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/application-workloads/active-directory/active-directory-new-domain-ha-2-dc/azuredeploy.json -TemplateParameterObject $deploytemp
+
+7. Insert AdminPassword Of DOMAIN-"amicrosoftlab.com" in popup that up. -Attach picture
+AdminPassword Of DOMAIN- bNH9PJEDT1VT4Q
+8.After 20 minutes the environment will be up.

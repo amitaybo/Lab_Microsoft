@@ -1,0 +1,5 @@
+1. Open PS ISE With administrator
+2. import ps1 file "Bulk_Users.ps1"
+3. copy csv file "Bulk_Users.csv" on desktop  user "amitay"
+5. run script Bulk_Users.ps1
+6. In OU "IT" see 100 users created.
