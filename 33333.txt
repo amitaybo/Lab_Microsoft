@@ -1,0 +1,76 @@
+
+# CyberArk CCP - Get Password
+# Windows PowerShell 5.1 / PowerShell 7+
+
+# Configuration
+$baseUrl = "https://swtmksafe-web01.clalit.org.il/AIMWebService/api/Accounts"
+
+$appID  = "test"
+$safe   = "clalit_demo_shachr"
+$object = "Operating System-WinDomain-localhost-ss"
+$folder = "Root"
+$reason = "Demo"
+
+$useWindowsAuth = $false
+
+# URL Encoding
+$enc = {
+    param($value)
+    [uri]::EscapeDataString($value)
+}
+
+# Build URL
+$url = "${baseUrl}?AppID=$(& $enc $appID)&Safe=$(& $enc $safe)&Object=$(& $enc $object)&Folder=$(& $enc $folder)&Reason=$(& $enc $reason)"
+
+$params = @{
+    Uri         = $url
+    Method      = 'GET'
+    ErrorAction = 'Stop'
+}
+
+if ($useWindowsAuth) {
+    $params.UseDefaultCredentials = $true
+}
+
+try {
+    # Retrieve password from CCP
+    $response = Invoke-RestMethod @params
+
+    $username = $response.UserName
+    $password = $response.Content
+
+    if ([string]::IsNullOrEmpty($password)) {
+        throw "CCP returned an empty password"
+    }
+
+    Write-Host "Request successful!" -ForegroundColor Green
+    Write-Host "Account: $username" -ForegroundColor Cyan
+
+    # Password available in variable
+    Write-Host "Password retrieved successfully" -ForegroundColor Green
+
+    # Create PowerShell Credential
+    $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
+
+    $credential = New-Object System.Management.Automation.PSCredential(
+        $username,
+        $securePassword
+    )
+
+}
+catch {
+    Write-Host "Request failed:" -ForegroundColor Red
+
+    if ($_.Exception.Response) {
+        Write-Host "HTTP status:" ([int]$_.Exception.Response.StatusCode)
+    }
+
+    if ($_.ErrorDetails.Message) {
+        Write-Host "CCP response:" $_.ErrorDetails.Message
+    }
+    else {
+        Write-Host $_.Exception.Message
+    }
+
+    throw
+}
