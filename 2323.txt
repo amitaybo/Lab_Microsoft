@@ -24,3 +24,11 @@ Where-Object {
 } |
 Select-Object ProcessId, Name, CommandLine |
 Format-List
+
+
+Get-CimInstance Win32_Process |
+Where-Object {
+    $_.CommandLine -match 'auth-server-allowlist|auth-negotiate-delegate-allowlist'
+} |
+Select-Object ProcessId, Name, CommandLine |
+Format-List
