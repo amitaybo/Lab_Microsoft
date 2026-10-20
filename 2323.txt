@@ -1,0 +1,20 @@
+$baseUrl = "https://swtmksafe-web01.clalit.org.il/AIMWebService/api/Accounts"
+
+$appID = "test"
+$safe = "clalit_demo_sahcar"
+$object = "ObjectName"
+
+$url = "${baseUrl}?AppID=$appID&Safe=$safe&Object=$([uri]::EscapeDataString($object))"
+
+try {
+    $response = Invoke-RestMethod -Uri $url -Method GET -ErrorAction Stop
+
+    Write-Host "Request successful!" -ForegroundColor Green
+    Write-Host "Account:" $response.UserName
+    Write-Host "Password retrieved successfully" -ForegroundColor Green
+}
+catch {
+    Write-Host "ERROR:" $_.Exception.Message -ForegroundColor Red
+    Write-Host "CCP Error:" $_.ErrorDetails.Message -ForegroundColor Yellow
+}
+
