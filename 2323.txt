@@ -18,3 +18,9 @@ catch {
     Write-Host "CCP Error:" $_.ErrorDetails.Message -ForegroundColor Yellow
 }
 
+Get-CimInstance Win32_Process |
+Where-Object {
+    $_.Name -like "*YourApp*"
+} |
+Select-Object ProcessId, Name, CommandLine |
+Format-List
