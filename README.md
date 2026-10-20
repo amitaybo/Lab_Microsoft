@@ -11,3 +11,20 @@ instructions:
 TNX,
 Amitay Bar-Osher
 
+$baseUrl = "https://YOUR-CCP/AIMWebService/api/Accounts"
+
+$appID = "YOUR-APP-ID"
+$safe = "Credential-Providers"
+
+$url = "${baseUrl}?AppID=$appID&Safe=$safe"
+
+try {
+    $response = Invoke-RestMethod -Uri $url -Method GET -ErrorAction Stop
+
+    Write-Host "Request successful" -ForegroundColor Green
+    Write-Host "Returned account:" $response.UserName
+}
+catch {
+    Write-Host $_.Exception.Message -ForegroundColor Red
+    Write-Host $_.ErrorDetails.Message -ForegroundColor Yellow
+}
